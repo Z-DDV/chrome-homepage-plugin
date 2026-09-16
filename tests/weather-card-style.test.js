@@ -18,10 +18,12 @@ describe('weather card styles', () => {
     expect(weatherCss).toContain(`.weather-day-${kind}`)
   })
 
-  it('删除手写粒子动画并支持减少动态效果', () => {
+  it('使用背景定位实现漂移并支持减少动态效果', () => {
     expect(weatherCss).not.toContain('.weather-effect')
     expect(weatherCss).not.toContain('.weather-day-effect')
     expect(weatherCss).toContain('@keyframes weather-backdrop-drift')
+    expect(weatherCss).toMatch(/@keyframes weather-backdrop-drift\s*\{[^}]*background-position/s)
+    expect(weatherCss).not.toContain('translate3d(')
     expect(weatherCss).toContain('.card.card-weather::before { animation: none; }')
     expect(weatherScript).toContain('prefers-reduced-motion: reduce')
     expect(weatherScript).toContain('assets/meteocons/static/')

@@ -62,12 +62,11 @@
 }
 
 .card.card-weather::before {
-  inset: -3%;
+  inset: 0;
   background-image: var(--weather-backdrop);
-  background-position: center;
+  background-position: 48% 50%;
   background-size: cover;
   opacity: 0.72;
-  transform: scale(1.03);
   animation: weather-backdrop-drift var(--weather-drift-duration, 22s) ease-in-out infinite alternate;
 }
 
@@ -83,8 +82,8 @@
 }
 
 @keyframes weather-backdrop-drift {
-  from { transform: translate3d(-0.8%, 0, 0) scale(1.03); }
-  to { transform: translate3d(0.8%, -0.5%, 0) scale(1.07); }
+  from { background-position: 48% 50%; }
+  to { background-position: 52% 48%; }
 }
 
 .weather-card {
