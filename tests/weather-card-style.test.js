@@ -14,7 +14,7 @@ describe('weather card styles', () => {
 
   it.each(['clear', 'cloudy', 'rain', 'snow', 'storm', 'fog'])('为 %s 天气提供主卡背景和预报条配色', (kind) => {
     expect(weatherCss).toContain(`[data-weather-kind="${kind}"]`)
-    expect(weatherCss).toContain(`assets/weather-backgrounds/${kind}.jpg`)
+    expect(weatherCss).toContain(`assets/weather-backgrounds/${kind}-tile.svg`)
     expect(weatherCss).toContain(`.weather-day-${kind}`)
   })
 
@@ -23,13 +23,25 @@ describe('weather card styles', () => {
     expect(weatherCss).not.toContain('.weather-day-effect')
     expect(weatherCss).toContain('@keyframes weather-backdrop-drift')
     expect(weatherCss).toMatch(/@keyframes weather-backdrop-drift\s*\{[^}]*background-position/s)
-    expect(weatherCss).toContain('background-size: auto 112%')
-    expect(weatherCss).toContain('from { background-position: 0% 50%; }')
-    expect(weatherCss).toContain('to { background-position: 100% 48%; }')
+    expect(weatherCss).toContain('background-size: 2000px auto')
+    expect(weatherCss).toContain('background-repeat: repeat-x')
+    expect(weatherCss).toContain('from { background-position: 0px 50%; }')
+    expect(weatherCss).toContain('to { background-position: -2000px 50%; }')
+    expect(weatherCss).toContain('calc(var(--weather-drift-duration, 8s) * 25) linear infinite')
+    expect(weatherCss).not.toContain('infinite alternate')
     expect(weatherCss).not.toContain('translate3d(')
     expect(weatherCss).toContain('.card.card-weather::before { animation: none; }')
     expect(weatherScript).toContain('prefers-reduced-motion: reduce')
     expect(weatherScript).toContain('assets/meteocons/static/')
+  })
+
+  it.each(['clear', 'cloudy', 'rain', 'snow', 'storm', 'fog'])('为 %s 内嵌原图并镜像拼接平铺边缘', (kind) => {
+    const tile = readFileSync(new URL(`../assets/weather-backgrounds/${kind}-tile.svg`, import.meta.url), 'utf8')
+    const photo = readFileSync(new URL(`../assets/weather-backgrounds/${kind}.jpg`, import.meta.url)).toString('base64')
+    expect(tile).toContain('viewBox="0 0 3200 400"')
+    expect(tile).toContain(`data:image/jpeg;base64,${photo}`)
+    expect(tile).toContain('transform="translate(3200 0) scale(-1 1)"')
+    expect(tile.match(/<use /g)).toHaveLength(2)
   })
 
   it('包含六张天气摄影背景及可复现说明', () => {

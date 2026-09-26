@@ -26,3 +26,9 @@ Photorealistic cinematic weather photography for an ultra-wide 4:1 dashboard car
 - `fog.jpg`: layered natural mist and low cloud bands, muted cool gray-green and blue tones, and soft diffused daylight.
 
 To replace one condition while preserving consistency, reuse the shared baseline unchanged and replace only the corresponding condition paragraph.
+
+## 单向循环平铺
+
+运行 `node scripts/generate-weather-tiles.mjs`，从现有 JPEG 生成 `*-tile.svg`。SVG 内嵌原图及其水平镜像，尺寸为 `3200x400`，使内部接缝和循环边缘两侧像素一致，不需要额外图片依赖。
+
+CSS 以 `2000px` 宽度平铺该图片，每轮向左移动 `2000px`；动画周期同步翻倍，保持原有漂移速度。替换原始 JPEG 后需重新运行生成脚本。

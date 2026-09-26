@@ -12,12 +12,12 @@ describe('weather card', () => {
   })
 
   it.each([
-    ['未知', 22],
-    ['0km/h', 30],
-    [0, 30],
-    ['8km/h', 22],
-    ['15.5km/h', 14.5],
-    ['100km/h', 6]
+    ['未知', 8],
+    ['0km/h', 10],
+    [0, 10],
+    ['8km/h', 8],
+    ['15.5km/h', 6.125],
+    ['100km/h', 3]
   ])('将风速 %s 换算为背景漂移周期', (windSpeed, duration) => {
     expect(getWeatherDriftDuration(windSpeed)).toBe(duration)
   })
@@ -74,7 +74,7 @@ describe('weather card', () => {
     })
 
     expect(cardEl.dataset.weatherKind).toBe('clear')
-    expect(styles['--weather-drift-duration']).toBe('22s')
+    expect(styles['--weather-drift-duration']).toBe('8s')
     expect(updatedAt.textContent).toBe('更新于 14:25')
     expect(content.innerHTML.match(/class="weather-day /g)).toHaveLength(7)
     expect(content.innerHTML.match(/<picture /g)).toHaveLength(8)
